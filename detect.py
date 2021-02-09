@@ -15,8 +15,8 @@ from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
-def detect(save_img=False):
-    source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
+def detect():
+    source, weights, view_img, save_txt, imgsz, save_img = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_imgs
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://'))
 
@@ -49,7 +49,7 @@ def detect(save_img=False):
         cudnn.benchmark = True  # set True to speed up constant image size inference
         dataset = LoadStreams(source, img_size=imgsz, stride=stride)
     else:
-        save_img = True
+        # save_img = True
         dataset = LoadImages(source, img_size=imgsz, stride=stride)
 
     # Get names and colors
@@ -159,6 +159,7 @@ if __name__ == '__main__':
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--update', action='store_true', help='update all models')
+    parser.add_argument('--no-imgs', action='store_true', help='dont save images')
     parser.add_argument('--project', default='runs/detect', help='save results to project/name')
     parser.add_argument('--name', default='exp', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
