@@ -93,11 +93,8 @@ def detect():
                             ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
             central_objs.append((objs_class[np.argmin(dists)].cpu().numpy()))       
         
-        print(torch.tensor(central_objs))
-        print(pred)
-        
         # Process detections
-        for i, det in enumerate(torch.tensor(central_objs)):  # detections per image
+        for i, det in enumerate(torch.tensor([central_objs])):  # detections per image
             if webcam:  # batch_size >= 1
                 p, s, im0, frame = path[i], '%g: ' % i, im0s[i].copy(), dataset.count
             else:
