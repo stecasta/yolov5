@@ -81,9 +81,10 @@ def detect():
         
         # Keep only most central detection
         #[tensor([[ 39.00000,   2.90625,  94.37500, 116.50000,   0.85107,   1.00000]], device='cuda:0')]
+        print(pred)
         for i, det in enumerate(pred):
             pts = det[:, :4]
-            print(pts)
+            print(det)
 #             dist2 = (float(coords[1]) - 0.5)**2 + (float(coords[2]) - 0.5)**2
 #             dists_to_center.append(dist2)
 #         # Get center player line id
