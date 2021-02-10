@@ -80,19 +80,17 @@ def detect():
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
         
-        # Keep only most central detection for each class
+        # Keep only central detections
         x = pred[0]
-        central_objs = []
-        for c in x[:, -1].unique():
-            # Get only objects belonging to that class
-            objs_class = x[x[:, -1] == c]
-            dists = []
-            for coords in objs_class:
+        dists = []
+        print(img.shape[2])
+        for i, objs in enumerate(pred[0]):
+            for coords in objs:
                 # Compute distance of center of the box from center point of th image
-                dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - 128 / 2)**2 + 
-                            ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
-            central_objs.append((objs_class[np.argmin(dists)].cpu().numpy()))       
-        
+                dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - img.shape[2] / 2)**2 + 
+                            ((coords[1] + (coords[3] - coords[1]) / 2) - img.shape[2] / 2)**2)
+        central_objs = pred[0][dists]    
+        print(centrlal_objs)
         # Process detections
         for i, det in enumerate(torch.tensor([central_objs])):  # detections per image
             if webcam:  # batch_size >= 1
