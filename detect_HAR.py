@@ -78,9 +78,17 @@ def detect():
         # Apply Classifier
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
-            
-        print(pred)
-
+        
+        # Keep only most central detection
+        #[tensor([[ 39.00000,   2.90625,  94.37500, 116.50000,   0.85107,   1.00000]], device='cuda:0')]
+        for i, det in enumerate(pred):
+            pts = det[:, :4]
+            print(pts)
+#             dist2 = (float(coords[1]) - 0.5)**2 + (float(coords[2]) - 0.5)**2
+#             dists_to_center.append(dist2)
+#         # Get center player line id
+#         center_id = np.argmin(dists_to_center)
+        
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             if webcam:  # batch_size >= 1
