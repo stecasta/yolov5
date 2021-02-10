@@ -93,6 +93,9 @@ def detect():
                             ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
             central_objs.append((objs_class[np.argmin(dists)]))
         
+        print(central_objs)
+        print(pred)
+        
         # Process detections
         for i, det in enumerate([central_objs]):  # detections per image
             if webcam:  # batch_size >= 1
