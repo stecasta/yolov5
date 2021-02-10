@@ -91,7 +91,7 @@ def detect():
                 # Compute distance of center of the box from center point of th image
                 dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - 128 / 2)**2 + 
                             ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
-            central_objs.append(np.array((objs_class[np.argmin(dists)])))       
+            central_objs.append((objs_class[np.argmin(dists)].cpu().numpy()))       
         
         # Process detections
         for i, det in enumerate(torch.tensor(central_objs)):  # detections per image
