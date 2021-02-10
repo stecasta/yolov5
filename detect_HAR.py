@@ -89,8 +89,7 @@ def detect():
             dists = []
             for i, coords in enumerate(objs_class):
               # Compute distance of center of the box from center point of th image
-                dist2 = ((coords[0] + (coords[2] - coords[0]) / 2) - 128 / 2)**2 + 
-                           ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2
+                dist2 = (((coords[0] + (coords[2] - coords[0]) / 2) - img.shape[2:] / 2)**2 + ((coords[1] + (coords[3] - coords[1]) / 2) - img.shape[2:] / 2)**2)
                 if dist2 < 100:
                     central_objs.append(objs_class[i].cpu().numpy())
                     
