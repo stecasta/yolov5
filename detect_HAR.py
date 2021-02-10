@@ -91,13 +91,10 @@ def detect():
                 # Compute distance of center of the box from center point of th image
                 dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - 128 / 2)**2 + 
                             ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
-            central_objs.append((objs_class[np.argmin(dists)]))
-        
-        print(central_objs)
-        print(pred)
+            central_objs.append(np.array((objs_class[np.argmin(dists)])))       
         
         # Process detections
-        for i, det in enumerate([central_objs]):  # detections per image
+        for i, det in enumerate(torch.tensor(central_objs)):  # detections per image
             if webcam:  # batch_size >= 1
                 p, s, im0, frame = path[i], '%g: ' % i, im0s[i].copy(), dataset.count
             else:
