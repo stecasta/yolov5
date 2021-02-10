@@ -78,6 +78,8 @@ def detect():
         # Apply Classifier
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
+            
+        print(pred)
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
