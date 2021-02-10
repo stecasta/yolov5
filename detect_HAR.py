@@ -79,19 +79,21 @@ def detect():
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
         
-        # Keep only most central detection
-        #[tensor([[ 39.00000,   2.90625,  94.37500, 116.50000,   0.85107,   1.00000]], device='cuda:0')]
-        print(pred)
-        for i, det in enumerate(pred):
-            pts = det[:, :4]
-            print(det)
-#             dist2 = (float(coords[1]) - 0.5)**2 + (float(coords[2]) - 0.5)**2
-#             dists_to_center.append(dist2)
-#         # Get center player line id
-#         center_id = np.argmin(dists_to_center)
+        # Keep only most central detection for each class
+        x = pred[0]
+        central_objs = []
+        for c in x[:, -1].unique():
+        # Get only objects belonging to that class
+        objs_class = x[x[:, -1] == c]
+        dists = []
+        for coords in objs_class:
+            # Compute distance of center of the box from center point of th image
+            dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - 128 / 2)**2 + 
+                        ((coords[1] + (coords[3] - coords[1]) / 2) - 128 / 2)**2)
+        central_objs.append((objs_class[np.argmin(dists)]))
         
         # Process detections
-        for i, det in enumerate(pred):  # detections per image
+        for i, det in enumerate([central_objs]):  # detections per image
             if webcam:  # batch_size >= 1
                 p, s, im0, frame = path[i], '%g: ' % i, im0s[i].copy(), dataset.count
             else:
