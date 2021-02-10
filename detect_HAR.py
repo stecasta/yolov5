@@ -87,8 +87,8 @@ def detect():
         for i, objs in enumerate(pred[0]):
             for coords in objs:
                 # Compute distance of center of the box from center point of th image
-                dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - img.shape[2] / 2)**2 + 
-                            ((coords[1] + (coords[3] - coords[1]) / 2) - img.shape[2] / 2)**2)
+                dists.append(((coords[0] + (coords[2] - coords[0]) / 2) - img.shape[2:] / 2)**2 + 
+                            ((coords[1] + (coords[3] - coords[1]) / 2) - img.shape[2:] / 2)**2)
         central_objs = pred[0][dists]    
         print(centrlal_objs)
         # Process detections
